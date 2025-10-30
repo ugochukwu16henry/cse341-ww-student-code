@@ -1,0 +1,35 @@
+### Test health endpoint
+GET http://localhost:8080/health
+
+###
+
+### Get professional data
+GET http://localhost:8080/professional
+
+###
+
+### Update professional data (MongoDB version only)
+PUT http://localhost:8080/professional
+Content-Type: application/json
+
+{
+  "professionalName": "Henry Ugochukwu",
+  "base64Image": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "nameLink": {
+    "firstName": "Henry",
+    "url": "https://ugochukwu16henry.github.io/myportolio/"
+  },
+  "primaryDescription": " is a Creative Developer",
+  "workDescription1": "Passionate about creating beautiful and functional web experiences.",
+  "workDescription2": "Specializing in frontend development with modern frameworks.",
+  "linkTitleText": "Find me online:",
+  "linkedInLink": {
+    "text": "LinkedIn",
+    "link": "https://www.linkedin.com/in/ugochukwuhenry"
+  },
+  "githubLink": {
+    "text": "GitHub",
+    "link": "https://github.com/ugochukwu16henry"
+  },
+  "contactText": "Let's build something amazing together!"
+}
