@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection string - Update with your credentials
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017";
+const MONGO_URI = 'mongodb+srv://ugochukwuhenry:1995Mobuchi@cluster.mongodb.net/';
 const DB_NAME = "portfolioDB";
 const COLLECTION_NAME = "professional";
 
