@@ -8,8 +8,10 @@ const PORT = 8080;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection string - Update with your credentials
-const MONGO_URI = 'mongodb+srv://ugochukwuhenry:1995Mobuchi@cluster.mongodb.net/';
+// MongoDB connection string
+const MONGO_URI =
+  process.env.MONGO_URI ||
+  "mongodb+srv://ugochukwuhenry:1995Mobuchi@cluster.mongodb.net/";
 const DB_NAME = "portfolioDB";
 const COLLECTION_NAME = "professional";
 
@@ -19,20 +21,42 @@ let professionalCollection;
 // Connect to MongoDB
 async function connectToMongoDB() {
   try {
+    console.log("🔄 Attempting to connect to MongoDB Atlas...");
+
     const client = new MongoClient(MONGO_URI);
     await client.connect();
-    console.log("Connected to MongoDB successfully");
+
+    console.log("✅ Connected to MongoDB Atlas successfully!");
 
     db = client.db(DB_NAME);
     professionalCollection = db.collection(COLLECTION_NAME);
 
+    console.log(`📁 Using database: ${DB_NAME}`);
+    console.log(`📦 Using collection: ${COLLECTION_NAME}`);
+
     // Check if data exists, if not, seed it
     const count = await professionalCollection.countDocuments();
+    console.log(`📊 Documents in collection: ${count}`);
+
     if (count === 0) {
+      console.log("🌱 No data found. Seeding database...");
       await seedData();
+    } else {
+      console.log("✨ Database already contains data");
     }
   } catch (error) {
-    console.error("MongoDB connection error:", error);
+    console.error("❌ MongoDB connection error:", error.message);
+
+    if (error.message.includes("authentication")) {
+      console.error(
+        "💡 Check your username and password in the connection string"
+      );
+    } else if (error.message.includes("network")) {
+      console.error(
+        "💡 Check your network and MongoDB Atlas IP whitelist settings"
+      );
+    }
+
     process.exit(1);
   }
 }
@@ -43,11 +67,11 @@ async function seedData() {
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
 
   const initialData = {
-    professionalName: "Henry Ugochukwu",
+    professionalName: "John Doe",
     base64Image: sampleImage,
     nameLink: {
-      firstName: "Henry",
-      url: "https://ugochukwu16henry.github.io/myportolio/",
+      firstName: "John",
+      url: "https://www.example.com",
     },
     primaryDescription: " is a Full Stack Developer",
     workDescription1:
@@ -57,11 +81,11 @@ async function seedData() {
     linkTitleText: "Connect with me:",
     linkedInLink: {
       text: "LinkedIn Profile",
-      link: "https://www.linkedin.com/in/ugochukwuhenry",
+      link: "https://www.linkedin.com/in/yourprofile",
     },
     githubLink: {
       text: "GitHub Profile",
-      link: "https://github.com/ugochukwu16henry",
+      link: "https://github.com/yourusername",
     },
     contactText:
       "Feel free to reach out for collaborations or just a friendly chat!",
